@@ -1,8 +1,0 @@
-{
-  "MailSettings": {
-    "ToAddress": "divya.nerur@gmail.com"
-  },
-  "ConnectionStrings": {
-    "WorldContextConnection": "Server=(localdb)\\MSSQLLocalDb;Database=TheWorldProjectDb;Trusted_Connection=true;MultipleActiveResultSets=true;"
-  }
-}

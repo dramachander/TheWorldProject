@@ -6,3 +6,5 @@ src/TheWorldProject/bin/
 src/TheWorldProject/obj/
 
 src/TheWorldProject/wwwroot/lib/
+
+src/TheWorldProject/config\.json

@@ -1,16 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using TheWorldProject.Services;
-using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Serialization;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using TheWorldProject.Models;
+using TheWorldProject.Services;
+using TheWorldProject.ViewModels;
 
 namespace TheWorldProject
 {
@@ -42,9 +44,14 @@ namespace TheWorldProject
 
             services.AddDbContext<WorldContext>();
             services.AddScoped<IWorldRepository, WorldRepository>();
+            services.AddTransient<GeoCoordsService>();
             services.AddTransient<WorldContextSeedData>();
             services.AddLogging();
-            services.AddMvc();
+            services.AddMvc()
+                .AddJsonOptions(config =>
+                {
+                    config.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,7 +60,12 @@ namespace TheWorldProject
             WorldContextSeedData seeder,
             ILoggerFactory loggerFactor)
         {
-            //app.UseDefaultFiles();
+            Mapper.Initialize(config =>
+            {
+                config.CreateMap<TripViewModel, Trip>().ReverseMap();
+                config.CreateMap<StopViewModel, Stop>().ReverseMap();
+
+            });
             if (env.IsEnvironment("Development"))
             {
                 app.UseDeveloperExceptionPage();
