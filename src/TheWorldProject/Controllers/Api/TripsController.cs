@@ -8,9 +8,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using TheWorldProject.Models;
 using TheWorldProject.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TheWorldProject.Controllers.Api
 {
+    [Authorize]
     [Route("api/trips")]
     public class TripsController : Controller
     {
@@ -28,7 +30,7 @@ namespace TheWorldProject.Controllers.Api
         {
             try
             {
-                var results = _repository.GetAllTrips();
+                var results = _repository.GetTripsByUsername(this.User.Identity.Name);
                 return Ok(Mapper.Map<IEnumerable<TripViewModel>>(results));
             }
             catch(Exception ex)
@@ -46,6 +48,7 @@ namespace TheWorldProject.Controllers.Api
             {
                 // Save to the Database
                 var newTrip = Mapper.Map<Trip>(theTrip);
+                newTrip.UserName = User.Identity.Name;
                 _repository.AddTrip(newTrip);
 
                 if (await _repository.SaveChangesAsync())

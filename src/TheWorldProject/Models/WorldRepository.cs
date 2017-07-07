@@ -13,7 +13,7 @@ namespace TheWorldProject.Models
         private WorldContext _context;
         private ILogger<WorldRepository> _logger;
 
-        public WorldRepository(WorldContext context,ILogger<WorldRepository> logger)
+        public WorldRepository(WorldContext context, ILogger<WorldRepository> logger)
         {
             _context = context;
             _logger = logger;
@@ -30,11 +30,6 @@ namespace TheWorldProject.Models
             _context.Add(trip);
         }
 
-        public async Task<bool> SaveChangesAsync()
-        {
-            return (await _context.SaveChangesAsync()) > 0;
-        }
-
         public Trip GetTripByName(string tripName)
         {
             return _context.Trips
@@ -43,15 +38,36 @@ namespace TheWorldProject.Models
                 .FirstOrDefault();
         }
 
-        public void AddStop(string tripName, Stop newStop)
+        public void AddStop(string tripName, Stop newStop, string userName)
         {
-            var trip = GetTripByName(tripName);
+            var trip = GetUserTripByName(tripName, userName);
 
-            if(trip != null)
+            if (trip != null)
             {
                 trip.Stops.Add(newStop);
                 _context.Stops.Add(newStop);
             }
+        }
+
+        public IEnumerable<Trip> GetTripsByUsername(string name)
+        {
+            return _context.Trips
+                .Include(t => t.Stops)
+                .Where(t => t.UserName == name)
+                .ToList();
+        }
+
+        public Trip GetUserTripByName(string tripName, string userName)
+        {
+            return _context.Trips
+               .Include(t => t.Stops)
+               .Where(t => t.Name == tripName && t.UserName == userName)
+               .FirstOrDefault();
+        }
+
+        public async Task<bool> SaveChangesAsync()
+        {
+            return (await _context.SaveChangesAsync()) > 0;
         }
     }
 }
