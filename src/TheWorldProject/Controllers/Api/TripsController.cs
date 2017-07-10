@@ -31,6 +31,7 @@ namespace TheWorldProject.Controllers.Api
             try
             {
                 var results = _repository.GetTripsByUsername(this.User.Identity.Name);
+                //var results = _repository.GetAllTrips();
                 return Ok(Mapper.Map<IEnumerable<TripViewModel>>(results));
             }
             catch(Exception ex)
