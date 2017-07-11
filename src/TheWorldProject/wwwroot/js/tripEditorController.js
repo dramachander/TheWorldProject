@@ -57,7 +57,6 @@
                     info: item.name
                 };
             });
-
             // Show Map
             travelMap.createMap({
                 stops: mapStops,

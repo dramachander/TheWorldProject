@@ -1,6 +1,6 @@
 ﻿<div>
     <div>
-        <a href="#/" class="btn btn-sm btn-default"><i class="fa fa-angle-left"></i>Back</a>
+        <a href="#/" class="btn btn-sm btn-default"><i class="fa fa-angle-left"></i> Back</a>
     </div>
     <div class="col-md-3">
         <h2>{{ vm.tripName }}</h2>
@@ -32,8 +32,8 @@
                 <th>Arrival</th>
             </tr>
             <tr ng-repeat="stop in vm.stops">
-                <td>{{ stop.Name }}</td>
-                <td>{{ stop.Arrival | date:shortDate }}</td>
+                <td>{{ stop.name }}</td>
+                <td>{{ stop.arrival | date:shortDate }}</td>
             </tr>
         </table>
     </div>
