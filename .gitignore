@@ -8,3 +8,5 @@ src/TheWorldProject/obj/
 src/TheWorldProject/wwwroot/lib/
 
 src/TheWorldProject/config\.json
+
+src/TheWorldProject/node_modules/

@@ -21,8 +21,8 @@
     },
     "AutoMapper": "6.1.1",
     "Microsoft.NETCore.App": {
-      "version": "1.0.1",
-      "type": "platform"
+      "version": "1.0.1"//,
+      //"type": "platform"
     },
     "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.1.1"
   },
@@ -47,8 +47,13 @@
   "publishOptions": {
     "include": [
       "wwwroot",
-      "web.config"
+      "web.config",
+      "Views",
+      "Config.json"
     ]
+  },
+  "runtimes": {
+    "win81-x64": {}
   },
   "runtimeOptions": {
     "configProperties": {
@@ -56,6 +61,8 @@
     }
   },
   "scripts": {
+    "prepublish": [ "npm install", "bower install" ],
+    "prepare": "gulp minify",
     "postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ]
   }
 }
